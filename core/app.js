@@ -41,16 +41,21 @@ io.on('connection', (socket) => {
 
         socket.broadcast.emit(
             SERVER_MESSAGE,
-            {message : message, emitter : SERVER, date : new Date().toTimeString()});
+            {message : message, emitter : SERVER, date : makeDateString()});
     });
 
     socket.on(SUPERVISOR_MESSAGE, msg => {
         console.log('Message from supervisor : ' + msg);
         io.emit(
             SUPERVISOR_MESSAGE,
-            {message : msg, emitter : SUPERVISOR, date : new Date().toTimeString()});
+            {message : msg, emitter : SUPERVISOR, date : makeDateString()});
     });
 });
+
+function makeDateString(){
+    let dateObj = new Date()
+    return dateObj.getUTCHours() +':'+ dateObj.getUTCMinutes() + ':' + dateObj.getSeconds();
+}
 
 setInterval(() => {
     io.emit('time', new Date().toTimeString())
