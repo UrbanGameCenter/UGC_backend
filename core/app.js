@@ -19,23 +19,36 @@ const server = express()
 
 const io = socketIO(server);
 
-io.on('connection', (socket) => {
-    console.log('Client connected');
 
-    socket.on('disconnect', () => {
+const SERVER_MESSAGE = "serverMessage"
+const SUPERVISOR_MESSAGE = "supervisorMessage"
+const USER_JOIN = "join"
+const USER_LEAVE = "disconnect"
+
+const SERVER = "server"
+const SUPERVISOR = "supervisor"
+
+io.on('connection', (socket) => {
+
+    socket.on(USER_LEAVE, () => {
         console.log('Client disconnected')
     });
 
-    socket.on('join', userNickname => {
+    socket.on(USER_JOIN, userNickname => {
 
-        console.log(userNickname +" : has joined the chat "  )
-        socket.broadcast.emit('userjoinedthechat',userNickname +" : has joined the chat ")
+        let message = userNickname +"  has joined the chat "
+        console.log(message)
 
+        socket.broadcast.emit(
+            SERVER_MESSAGE,
+            {message : message, emitter : SERVER});
     });
 
-    socket.on('supervisorMessage', msg => {
+    socket.on(SUPERVISOR_MESSAGE, msg => {
         console.log('Message from supervisor : ' + msg);
-        io.emit('supervisorMessage', msg);
+        io.emit(
+            SUPERVISOR_MESSAGE,
+            {message : msg, emitter : SUPERVISOR});
     });
 });
 
