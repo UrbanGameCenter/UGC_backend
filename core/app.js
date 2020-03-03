@@ -36,19 +36,19 @@ io.on('connection', (socket) => {
 
     socket.on(USER_JOIN, userNickname => {
 
-        let message = userNickname +"  has joined the chat "
+        let message = userNickname +" est connecté"
         console.log(message)
 
         socket.broadcast.emit(
             SERVER_MESSAGE,
-            {message : message, emitter : SERVER});
+            {message : message, emitter : SERVER, date : new Date().toTimeString()});
     });
 
     socket.on(SUPERVISOR_MESSAGE, msg => {
         console.log('Message from supervisor : ' + msg);
         io.emit(
             SUPERVISOR_MESSAGE,
-            {message : msg, emitter : SUPERVISOR});
+            {message : msg, emitter : SUPERVISOR, date : new Date().toTimeString()});
     });
 });
 
