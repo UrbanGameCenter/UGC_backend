@@ -33,9 +33,9 @@ io.on('connection', (socket) => {
 
     });
 
-    socket.on('chat message', msg => {
-        console.log('message: ' + msg);
-        io.emit('chat message', msg);
+    socket.on('supervisorMessage', msg => {
+        console.log('Message from supervisor : ' + msg);
+        io.emit('supervisorMessage', msg);
     });
 });
 
