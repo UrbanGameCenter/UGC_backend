@@ -51,7 +51,7 @@ io.on(CONNECTION, (socket) => {
     socket.on(SUPERVISOR_MESSAGE, payload => {
         console.log('payload : ' +payload);
         let jsonObject = JSON.parse(payload);
-        sendMessageToRoom(socket, jsonObject.message, jsonObject.room);
+        sendMessage(socket, jsonObject.message, jsonObject.room);
     });
 });
 
@@ -68,10 +68,10 @@ function broadcast(socket, message) {
         '{"message":"' + message +'","emitter":"' + SERVER +'","date":"'+makeDateString() +'"}');
 }
 
-function sendMessageToRoom(socket, message, room) {
+function sendMessage(socket, message, room) {
     console.log('Message from supervisor : ' + message + ' to room ' + room);
-    socket.in(room).emit(
-        SUPERVISOR_MESSAGE,
+    socket.broadcast.emit(
+        room,
         '{"message":"' + message +'","emitter":"' + SUPERVISOR +'","date":"'+makeDateString() +'"}');
 }
 
