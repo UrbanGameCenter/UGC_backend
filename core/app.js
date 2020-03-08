@@ -47,10 +47,12 @@ io.on(CONNECTION, (socket) => {
     });
 
     socket.on(START, room => {
+        console.log('supervisor start room : ' +room);
         socket.broadcast.emit(START,room)
     });
 
     socket.on(STOP, room => {
+        console.log('supervisor stop room : ' +room);
         socket.broadcast.emit(STOP,room)
     });
 
