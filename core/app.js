@@ -24,6 +24,9 @@ const SUPERVISOR_MESSAGE = "supervisorMessage"
 const CONNECTION = 'connection'
 const USER_JOIN = "join"
 const USER_JOIN_ROOM = "joinRoom"
+const START = "start"
+const STOP = "stop"
+
 
 const USER_LEAVE = "disconnect"
 
@@ -41,6 +44,14 @@ io.on(CONNECTION, (socket) => {
         socket.join(room);
         let message = "user est connecté à " + room
         broadcast(socket, message)
+    });
+
+    socket.on(START, room => {
+        socket.broadcast.emit(START,room)
+    });
+
+    socket.on(STOP, room => {
+        socket.broadcast.emit(STOP,room)
     });
 
     socket.on(USER_JOIN, userName => {

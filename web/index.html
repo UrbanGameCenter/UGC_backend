@@ -23,12 +23,6 @@
 
         var room = getUrlVars()["room"];
 
-        if(room == null){
-            socket.emit('join', "x");
-        }else{
-            socket.emit('joinRoom', room);
-        }
-
         $('form').submit(function(e){
             e.preventDefault(); // prevents page reloading
             socket.emit('supervisorMessage', makeMessage($('#messageInput').val()));
@@ -36,7 +30,7 @@
             return false;
         });
 
-        socket.on('supervisorMessage', function(payload){
+        socket.on(getUrlVars()["room"], function(payload){
 
             console.log('supervisorMessage : ' + payload);
 
